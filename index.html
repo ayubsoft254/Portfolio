@@ -1199,6 +1199,69 @@
                 button.style.transform = 'scale(1) translateY(0)';
             });
         });
+
+        // Certificate Modal Functionality
+        const viewCertBtn = document.getElementById('view-cert-btn');
+        const certModal = document.getElementById('cert-modal');
+        const closeModal = document.getElementById('close-modal');
+        const certIframe = document.getElementById('cert-iframe');
+        const certCard = document.querySelector('.cert-card');
+
+        // Certificate URL
+        const certificateUrl = 'https://savanna.alxafrica.com/certificates/Cmexsz8nPE';
+
+        viewCertBtn.addEventListener('click', () => {
+            // Add loading state
+            viewCertBtn.classList.add('loading');
+            
+            // Add pulse animation to card
+            certCard.classList.add('pulse');
+            
+            setTimeout(() => {
+                // Set iframe source and show modal
+                certIframe.src = certificateUrl;
+                certModal.classList.add('show');
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+                
+                // Remove loading state and pulse
+                viewCertBtn.classList.remove('loading');
+                certCard.classList.remove('pulse');
+            }, 1000); // Simulate loading time
+        });
+
+        // Close modal functionality
+        function closeCertModal() {
+            certModal.classList.remove('show');
+            document.body.style.overflow = 'auto'; // Restore scrolling
+            
+            // Clear iframe source to stop loading
+            setTimeout(() => {
+                certIframe.src = '';
+            }, 300);
+        }
+
+        closeModal.addEventListener('click', closeCertModal);
+
+        // Close modal when clicking outside
+        certModal.addEventListener('click', (e) => {
+            if (e.target === certModal) {
+                closeCertModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && certModal.classList.contains('show')) {
+                closeCertModal();
+            }
+        });
+
+        // Fallback for iframe loading issues
+        certIframe.addEventListener('error', () => {
+            // If iframe fails to load, open in new tab
+            window.open(certificateUrl, '_blank', 'noopener noreferrer');
+            closeCertModal();
+        });
     </script>
 </body>
 </html>
