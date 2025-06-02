@@ -230,6 +230,190 @@
             }
         }
 
+        /* CV Modal Styles */
+        .cv-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        .cv-modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: modalFadeIn 0.3s ease-out;
+        }
+
+        .cv-modal-content {
+            background: white;
+            border-radius: 15px;
+            max-width: 95%;
+            max-height: 95%;
+            position: relative;
+            animation: modalSlideIn 0.3s ease-out;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .cv-modal-iframe {
+            width: 90vw;
+            height: 85vh;
+            border: none;
+            border-radius: 10px;
+        }
+
+        .cv-modal-close {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            background: #ff4757;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 71, 87, 0.4);
+            z-index: 1001;
+        }
+
+        .cv-modal-close:hover {
+            background: #ff3742;
+            transform: scale(1.1);
+        }
+
+        /* CV Card Animations */
+        .cv-card {
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cv-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .cv-card:hover::before {
+            left: 100%;
+        }
+
+        .cv-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(153, 135, 111, 0.3);
+        }
+
+        /* CV Button Animations */
+        .cv-button {
+            background: linear-gradient(45deg, #99876f, #7a6e5a);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(153, 135, 111, 0.3);
+        }
+
+        .cv-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .cv-button:hover::before {
+            left: 100%;
+        }
+
+        .cv-button:hover {
+            background: linear-gradient(45deg, #b09e88, #99876f);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(153, 135, 111, 0.4);
+        }
+
+        .cv-button:active {
+            transform: translateY(-1px) scale(1.02);
+        }
+
+        /* Loading indicator for CV */
+        .cv-loading {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+        }
+
+        .cv-button.loading .cv-loading {
+            display: block;
+        }
+
+        .cv-button.loading .cv-text {
+            opacity: 0;
+        }
+
+        /* Pulse animation for CV card */
+        @keyframes cvPulse {
+            0% { box-shadow: 0 0 0 0 rgba(153, 135, 111, 0.4); }
+            70% { box-shadow: 0 0 0 30px rgba(153, 135, 111, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(153, 135, 111, 0); }
+        }
+
+        .cv-card.pulse {
+            animation: cvPulse 2s infinite;
+        }
+
+        /* CV Error Message */
+        .cv-error-message {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .cv-error-message.show {
+            display: block;
+        }
+
+        /* Mobile optimizations for CV modal */
+        @media (max-width: 768px) {
+            .cv-modal-content {
+                margin: 10px;
+                max-width: calc(100% - 20px);
+                max-height: calc(100% - 20px);
+            }
+            
+            .cv-modal-iframe {
+                width: calc(100vw - 40px);
+                height: calc(100vh - 100px);
+            }
+        }
+
         /* Hero animations */
         .hero-name {
             opacity: 0;
@@ -812,20 +996,54 @@
                 <div class="w-20 h-1 bg-primary mx-auto"></div>
             </div>
 
-            <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg inline-block" data-aos="zoom-in">
+            <div class="cv-card bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg inline-block" data-aos="zoom-in">
                 <div class="mb-6">
                     <i class="fas fa-file-pdf text-6xl text-primary mb-4"></i>
                     <p class="text-gray-600 dark:text-gray-400 mb-6">
                         You can view or download my latest CV below.
                     </p>
                 </div>
-                <a href="assets/Henry_Ayub_CV.pdf" target="_blank" rel="noopener noreferrer" class="inline-flex items-center bg-primary hover:bg-primary-dark text-white px-8 py-4 rounded-full font-semibold text-lg transition-colors shadow-lg hover:shadow-xl">
-                    <i class="fas fa-download mr-3"></i>
-                    Download CV
-                </a>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button id="view-cv-btn" class="cv-button">
+                        <span class="cv-text">
+                            <i class="fas fa-eye mr-3"></i>
+                            View CV
+                        </span>
+                        <div class="cv-loading">
+                            <i class="fas fa-spinner fa-spin"></i>
+                        </div>
+                    </button>
+                    <a href="assets/Henry_Ayub_CV.pdf" download="Henry_Ayub_CV.pdf" 
+                       class="inline-flex items-center bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-full font-semibold text-lg transition-colors shadow-lg hover:shadow-xl">
+                        <i class="fas fa-download mr-3"></i>
+                        Download CV
+                    </a>
+                </div>
             </div>
         </div>
     </section>
+
+    <!-- CV Modal -->
+    <div id="cv-modal" class="cv-modal">
+        <div class="cv-modal-content">
+            <button class="cv-modal-close" id="close-cv-modal">
+                <i class="fas fa-times"></i>
+            </button>
+            <iframe id="cv-iframe" class="cv-modal-iframe" src="" title="Henry Ayub CV"></iframe>
+            <div id="cv-error" class="cv-error-message">
+                <div class="text-center">
+                    <i class="fas fa-exclamation-triangle text-6xl text-yellow-500 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-4">CV Preview Not Available</h3>
+                    <p class="text-gray-600 mb-6">The CV cannot be displayed in preview mode. Please download it instead.</p>
+                    <a href="assets/Henry_Ayub_CV.pdf" download="Henry_Ayub_CV.pdf" 
+                       class="inline-flex items-center bg-primary hover:bg-primary-dark text-white px-6 py-3 rounded-full font-semibold transition-colors">
+                        <i class="fas fa-download mr-2"></i>
+                        Download CV
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Contact Section -->
     <section id="contact" class="py-20 bg-gray-50 dark:bg-gray-800">
@@ -1300,6 +1518,92 @@
             // If iframe fails to load, open in new tab
             window.open(certificateUrl, '_blank', 'noopener noreferrer');
             closeCertModal();
+        });
+
+        // CV Modal Functionality
+        const viewCvBtn = document.getElementById('view-cv-btn');
+        const cvModal = document.getElementById('cv-modal');
+        const closeCvModal = document.getElementById('close-cv-modal');
+        const cvIframe = document.getElementById('cv-iframe');
+        const cvError = document.getElementById('cv-error');
+        const cvCard = document.querySelector('.cv-card');
+
+        // CV URL
+        const cvUrl = 'assets/Henry_Ayub_CV.pdf';
+
+        viewCvBtn.addEventListener('click', () => {
+            // Add loading state
+            viewCvBtn.classList.add('loading');
+            
+            // Add pulse animation to card
+            cvCard.classList.add('pulse');
+            
+            setTimeout(() => {
+                // Reset modal state
+                cvIframe.style.display = 'block';
+                cvError.classList.remove('show');
+                
+                // Try to load CV in iframe
+                cvIframe.src = cvUrl;
+                cvModal.classList.add('show');
+                document.body.style.overflow = 'hidden';
+                
+                // Remove loading state and pulse
+                viewCvBtn.classList.remove('loading');
+                cvCard.classList.remove('pulse');
+                
+                // Set a timeout to check if iframe loaded
+                setTimeout(() => {
+                    // Check if PDF loaded successfully
+                    try {
+                        // For PDFs, we'll show the iframe regardless as browsers handle PDFs differently
+                        // If there's an actual error, the error event will handle it
+                    } catch (error) {
+                        // Show error message and hide iframe
+                        cvIframe.style.display = 'none';
+                        cvError.classList.add('show');
+                    }
+                }, 2000);
+                
+            }, 1000);
+        });
+
+        // Handle iframe load errors
+        cvIframe.addEventListener('error', () => {
+            cvIframe.style.display = 'none';
+            cvError.classList.add('show');
+        });
+
+        // CV Modal close functionality
+        function closeCvModalFunc() {
+            cvModal.classList.remove('show');
+            document.body.style.overflow = 'auto';
+            
+            setTimeout(() => {
+                cvIframe.src = '';
+                cvIframe.style.display = 'block';
+                cvError.classList.remove('show');
+            }, 300);
+        }
+
+        closeCvModal.addEventListener('click', closeCvModalFunc);
+
+        cvModal.addEventListener('click', (e) => {
+            if (e.target === cvModal) {
+                closeCvModalFunc();
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && cvModal.classList.contains('show')) {
+                closeCvModalFunc();
+            }
+        });
+
+        // Fallback for iframe loading issues
+        cvIframe.addEventListener('load', () => {
+            // PDF loaded successfully
+            console.log('CV loaded successfully');
         });
     </script>
 </body>
