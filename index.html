@@ -614,21 +614,37 @@
             </div>
 
             <div class="max-w-2xl mx-auto">
-                <div class="bg-gradient-to-r from-blue-500 to-blue-600 p-8 rounded-2xl text-white shadow-2xl" data-aos="zoom-in">
+                <div class="cert-card p-8 rounded-2xl text-white shadow-2xl relative" data-aos="zoom-in">
                     <div class="text-center">
-                        <div class="bg-white/20 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <div class="bg-white/20 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 cert-icon">
                             <i class="fas fa-graduation-cap text-3xl"></i>
                         </div>
                         <h3 class="text-2xl font-bold mb-4">ALX Software Engineering Certificate</h3>
-                        <p class="text-lg mb-6">Successfully completed the ALX SE Program</p>
-                        <a href="https://savanna.alxafrica.com/certificates/Cmexsz8nPE" target="_blank" rel="noopener noreferrer" class="inline-block bg-white text-blue-600 px-6 py-2 rounded-full font-semibold hover:bg-gray-100 transition-colors">
-                            View Certificate
-                        </a>
+                        <p class="text-lg mb-6 text-cyan-100">Successfully completed the ALX SE Program</p>
+                        <button id="view-cert-btn" class="cert-button">
+                            <span class="cert-text">
+                                <i class="fas fa-eye mr-2"></i>
+                                View Certificate
+                            </span>
+                            <div class="cert-loading">
+                                <i class="fas fa-spinner fa-spin"></i>
+                            </div>
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
+    <!-- Certificate Modal -->
+    <div id="cert-modal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" id="close-modal">
+                <i class="fas fa-times"></i>
+            </button>
+            <iframe id="cert-iframe" class="modal-iframe" src="" title="ALX Certificate"></iframe>
+        </div>
+    </div>
 
     <!-- Projects Section -->
     <section id="projects" class="py-20">
