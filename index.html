@@ -75,6 +75,120 @@
             from, to { border-color: transparent }
             50% { border-color: #99876f }
         }
+
+        /* Hero animations */
+        .hero-name {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease-out forwards;
+            animation-delay: 0.5s;
+        }
+
+        .hero-role {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease-out forwards;
+            animation-delay: 1s;
+        }
+
+        .hero-description {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease-out forwards;
+            animation-delay: 1.5s;
+        }
+
+        .hero-buttons {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease-out forwards;
+            animation-delay: 2s;
+        }
+
+        .name-highlight {
+            background: linear-gradient(45deg, #99876f, #7a6e5a, #b09e88);
+            background-size: 200% 200%;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 3s ease-in-out infinite;
+        }
+
+        .role-typing {
+            overflow: hidden;
+            border-right: 2px solid #99876f;
+            white-space: nowrap;
+            width: 0;
+            animation: typewriter 2s steps(40) forwards, blink 0.75s step-end infinite;
+            animation-delay: 1.2s;
+        }
+
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes gradientShift {
+            0%, 100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        @keyframes typewriter {
+            0% {
+                width: 0;
+            }
+            100% {
+                width: 100%;
+            }
+        }
+
+        @keyframes blink {
+            from, to {
+                border-color: transparent;
+            }
+            50% {
+                border-color: #99876f;
+            }
+        }
+
+        /* Button animations */
+        .hero-button {
+            transform: scale(0.9);
+            animation: buttonPop 0.6s ease-out forwards;
+        }
+
+        .hero-button:nth-child(1) {
+            animation-delay: 2.2s;
+        }
+
+        .hero-button:nth-child(2) {
+            animation-delay: 2.4s;
+        }
+
+        @keyframes buttonPop {
+            0% {
+                transform: scale(0.9);
+                opacity: 0.7;
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
         .project-image {
             width: 100%;
             height: 192px;
@@ -104,6 +218,19 @@
             .hero-subtitle {
                 font-size: 1.125rem !important;
                 line-height: 1.5;
+            }
+
+            .role-typing {
+                white-space: normal;
+                animation: fadeInUp 1s ease-out forwards;
+                animation-delay: 1s;
+                border-right: none;
+                width: auto;
+            }
+
+            .name-highlight {
+                -webkit-text-fill-color: #99876f;
+                animation: none;
             }
         }
         
@@ -173,21 +300,21 @@
         <div class="absolute top-20 left-10 w-32 h-32 bg-primary/20 rounded-full blob hidden md:block"></div>
         <div class="absolute bottom-20 right-10 w-24 h-24 bg-primary/30 rounded-full blob hidden md:block" style="animation-delay: -2s;"></div>
         
-        <div class="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8 relative z-10 pt-20 pb-10" data-aos="fade-up">
-            <h1 class="hero-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6 leading-tight">
-                Hi, I'm <span class="text-primary">Henry Ayub</span>
+        <div class="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8 relative z-10 pt-20 pb-10">
+            <h1 class="hero-name hero-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6 leading-tight">
+                Hi, I'm <span class="name-highlight">Henry Ayub</span>
             </h1>
-            <p class="hero-subtitle text-lg sm:text-xl md:text-2xl text-gray-600 dark:text-gray-400 mb-3 sm:mb-4 px-2">
+            <p class="hero-role role-typing hero-subtitle text-lg sm:text-xl md:text-2xl text-gray-600 dark:text-gray-400 mb-3 sm:mb-4 px-2">
                 Software Engineer | Backend Developer | Community Leader
             </p>
-            <p class="text-base sm:text-lg text-gray-500 dark:text-gray-500 mb-6 sm:mb-8 max-w-2xl mx-auto px-2 leading-relaxed">
+            <p class="hero-description text-base sm:text-lg text-gray-500 dark:text-gray-500 mb-6 sm:mb-8 max-w-2xl mx-auto px-2 leading-relaxed">
                 Empowering tech through clean code and community impact.
             </p>
-            <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
-                <a href="#projects" class="bg-primary hover:bg-primary-dark text-white px-6 sm:px-8 py-3 rounded-full font-medium transition-colors text-sm sm:text-base">
+            <div class="hero-buttons flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
+                <a href="#projects" class="hero-button bg-primary hover:bg-primary-dark text-white px-6 sm:px-8 py-3 rounded-full font-medium transition-all duration-300 text-sm sm:text-base transform hover:scale-105 hover:shadow-lg">
                     View My Work
                 </a>
-                <a href="#contact" class="border-2 border-primary text-primary hover:bg-primary hover:text-white px-6 sm:px-8 py-3 rounded-full font-medium transition-colors text-sm sm:text-base">
+                <a href="#contact" class="hero-button border-2 border-primary text-primary hover:bg-primary hover:text-white px-6 sm:px-8 py-3 rounded-full font-medium transition-all duration-300 text-sm sm:text-base transform hover:scale-105 hover:shadow-lg">
                     Get In Touch
                 </a>
             </div>
@@ -725,24 +852,36 @@
             }, 8000);
         }
 
-        // Improved typing animation for hero section - mobile responsive
-        const typingText = document.querySelector('.typing-animation');
-        if (typingText && window.innerWidth > 768) { // Only animate on desktop
-            const text = typingText.textContent;
-            typingText.textContent = '';
-            
-            setTimeout(() => {
-                let i = 0;
-                const typeWriter = () => {
-                    if (i < text.length) {
-                        typingText.textContent += text.charAt(i);
-                        i++;
-                        setTimeout(typeWriter, 50);
-                    }
-                };
-                typeWriter();
-            }, 1000);
+        // Hero Animation Control
+        function initHeroAnimations() {
+            // Reset animations on page load
+            const heroName = document.querySelector('.hero-name');
+            const heroRole = document.querySelector('.hero-role');
+            const heroDescription = document.querySelector('.hero-description');
+            const heroButtons = document.querySelector('.hero-buttons');
+
+            // Ensure animations start fresh
+            [heroName, heroRole, heroDescription, heroButtons].forEach(el => {
+                if (el) {
+                    el.style.animation = 'none';
+                    el.offsetHeight; // Trigger reflow
+                    el.style.animation = null;
+                }
+            });
+
+            // Initialize typewriter effect for mobile
+            if (window.innerWidth <= 768) {
+                const roleElement = document.querySelector('.role-typing');
+                if (roleElement) {
+                    roleElement.classList.remove('role-typing');
+                    roleElement.style.borderRight = 'none';
+                    roleElement.style.width = 'auto';
+                }
+            }
         }
+
+        // Initialize hero animations on page load
+        window.addEventListener('load', initHeroAnimations);
 
         // Disabled parallax effect on mobile for better performance
         window.addEventListener('scroll', () => {
@@ -821,7 +960,27 @@
                 if (parallax) {
                     parallax.style.transform = 'translateY(0px)';
                 }
+                
+                // Disable typewriter effect on mobile
+                const roleElement = document.querySelector('.hero-role');
+                if (roleElement) {
+                    roleElement.style.borderRight = 'none';
+                    roleElement.style.width = 'auto';
+                    roleElement.style.animation = 'fadeInUp 1s ease-out forwards';
+                    roleElement.style.animationDelay = '1s';
+                }
             }
+        });
+
+        // Enhanced button hover effects
+        document.querySelectorAll('.hero-button').forEach(button => {
+            button.addEventListener('mouseenter', () => {
+                button.style.transform = 'scale(1.05) translateY(-2px)';
+            });
+            
+            button.addEventListener('mouseleave', () => {
+                button.style.transform = 'scale(1) translateY(0)';
+            });
         });
     </script>
 </body>
