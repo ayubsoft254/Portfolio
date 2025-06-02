@@ -636,13 +636,25 @@
         </div>
     </section>
 
-    <!-- Certificate Modal -->
+    <!-- Certificate Modal - Enhanced -->
     <div id="cert-modal" class="modal">
         <div class="modal-content">
             <button class="modal-close" id="close-modal">
                 <i class="fas fa-times"></i>
             </button>
             <iframe id="cert-iframe" class="modal-iframe" src="" title="ALX Certificate"></iframe>
+            <div id="cert-error" class="cert-error-message">
+                <div class="text-center">
+                    <i class="fas fa-exclamation-triangle text-6xl text-yellow-500 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-4">Certificate Preview Not Available</h3>
+                    <p class="text-gray-600 mb-6">The certificate cannot be displayed in preview mode due to security restrictions.</p>
+                    <a href="https://savanna.alxafrica.com/certificates/Cmexsz8nPE" target="_blank" rel="noopener noreferrer" 
+                       class="inline-flex items-center bg-primary hover:bg-primary-dark text-white px-6 py-3 rounded-full font-semibold transition-colors">
+                        <i class="fas fa-external-link-alt mr-2"></i>
+                        View Certificate Directly
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -1200,11 +1212,12 @@
             });
         });
 
-        // Certificate Modal Functionality
+        // Certificate Modal Functionality - Enhanced with Error Handling
         const viewCertBtn = document.getElementById('view-cert-btn');
         const certModal = document.getElementById('cert-modal');
         const closeModal = document.getElementById('close-modal');
         const certIframe = document.getElementById('cert-iframe');
+        const certError = document.getElementById('cert-error');
         const certCard = document.querySelector('.cert-card');
 
         // Certificate URL
@@ -1218,38 +1231,64 @@
             certCard.classList.add('pulse');
             
             setTimeout(() => {
-                // Set iframe source and show modal
+                // Reset modal state
+                certIframe.style.display = 'block';
+                certError.classList.remove('show');
+                
+                // Try to load certificate in iframe
                 certIframe.src = certificateUrl;
                 certModal.classList.add('show');
-                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+                document.body.style.overflow = 'hidden';
                 
                 // Remove loading state and pulse
                 viewCertBtn.classList.remove('loading');
                 certCard.classList.remove('pulse');
-            }, 1000); // Simulate loading time
+                
+                // Set a timeout to check if iframe loaded
+                setTimeout(() => {
+                    // If iframe is blocked, show error message
+                    try {
+                        // This will throw an error if iframe is blocked
+                        const iframeDoc = certIframe.contentDocument || certIframe.contentWindow.document;
+                        if (!iframeDoc || iframeDoc.location.href === 'about:blank') {
+                            throw new Error('Iframe blocked');
+                        }
+                    } catch (error) {
+                        // Show error message and hide iframe
+                        certIframe.style.display = 'none';
+                        certError.classList.add('show');
+                    }
+                }, 2000);
+                
+            }, 1000);
         });
 
-        // Close modal functionality
+        // Handle iframe load errors
+        certIframe.addEventListener('error', () => {
+            certIframe.style.display = 'none';
+            certError.classList.add('show');
+        });
+
+        // Enhanced close modal functionality
         function closeCertModal() {
             certModal.classList.remove('show');
-            document.body.style.overflow = 'auto'; // Restore scrolling
+            document.body.style.overflow = 'auto';
             
-            // Clear iframe source to stop loading
             setTimeout(() => {
                 certIframe.src = '';
+                certIframe.style.display = 'block';
+                certError.classList.remove('show');
             }, 300);
         }
 
         closeModal.addEventListener('click', closeCertModal);
 
-        // Close modal when clicking outside
         certModal.addEventListener('click', (e) => {
             if (e.target === certModal) {
                 closeCertModal();
             }
         });
 
-        // Close modal with Escape key
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && certModal.classList.contains('show')) {
                 closeCertModal();
