@@ -302,13 +302,13 @@
         
         <div class="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8 relative z-10 pt-20 pb-10">
             <h1 class="hero-name hero-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6 leading-tight">
-                Hi, I'm <span class="name-highlight">Henry Ayub</span>
+                Hi, I'm <span class="name-highlight typewriter" id="name-typewriter">Henry Ayub</span>
             </h1>
-            <p class="hero-role role-typing hero-subtitle text-lg sm:text-xl md:text-2xl text-gray-600 dark:text-gray-400 mb-3 sm:mb-4 px-2">
-                Software Engineer | Backend Developer | Community Leader
+            <p class="hero-role hero-subtitle text-lg sm:text-xl md:text-2xl text-gray-600 dark:text-gray-400 mb-3 sm:mb-4 px-2">
+                <span class="typewriter" id="role-typewriter">Software Engineer | Backend Developer | Community Leader</span>
             </p>
             <p class="hero-description text-base sm:text-lg text-gray-500 dark:text-gray-500 mb-6 sm:mb-8 max-w-2xl mx-auto px-2 leading-relaxed">
-                Empowering tech through clean code and community impact.
+                <span class="typewriter" id="description-typewriter">Empowering tech through clean code and community impact.</span>
             </p>
             <div class="hero-buttons flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
                 <a href="#projects" class="hero-button bg-primary hover:bg-primary-dark text-white px-6 sm:px-8 py-3 rounded-full font-medium transition-all duration-300 text-sm sm:text-base transform hover:scale-105 hover:shadow-lg">
@@ -852,32 +852,79 @@
             }, 8000);
         }
 
-        // Hero Animation Control
-        function initHeroAnimations() {
-            // Reset animations on page load
-            const heroName = document.querySelector('.hero-name');
-            const heroRole = document.querySelector('.hero-role');
-            const heroDescription = document.querySelector('.hero-description');
-            const heroButtons = document.querySelector('.hero-buttons');
-
-            // Ensure animations start fresh
-            [heroName, heroRole, heroDescription, heroButtons].forEach(el => {
-                if (el) {
-                    el.style.animation = 'none';
-                    el.offsetHeight; // Trigger reflow
-                    el.style.animation = null;
-                }
-            });
-
-            // Initialize typewriter effect for mobile
-            if (window.innerWidth <= 768) {
-                const roleElement = document.querySelector('.role-typing');
-                if (roleElement) {
-                    roleElement.classList.remove('role-typing');
-                    roleElement.style.borderRight = 'none';
-                    roleElement.style.width = 'auto';
+        // Typewriter Effect Function
+        function typeWriter(element, text, speed = 100, callback = null) {
+            let i = 0;
+            element.style.width = '0';
+            element.classList.add('typing');
+            
+            function type() {
+                if (i < text.length) {
+                    element.textContent = text.slice(0, i + 1);
+                    element.style.width = 'auto';
+                    i++;
+                    setTimeout(type, speed);
+                } else {
+                    element.classList.remove('typing');
+                    element.classList.add('typing-complete');
+                    if (callback) callback();
                 }
             }
+            type();
+        }
+
+        // Initialize Hero Typewriter Animations
+        function initHeroTypewriter() {
+            // Only run on desktop/tablet
+            if (window.innerWidth > 768) {
+                const nameElement = document.getElementById('name-typewriter');
+                const roleElement = document.getElementById('role-typewriter');
+                const descriptionElement = document.getElementById('description-typewriter');
+
+                // Reset elements
+                [nameElement, roleElement, descriptionElement].forEach(el => {
+                    if (el) {
+                        el.textContent = '';
+                        el.classList.add('typewriter');
+                    }
+                });
+
+                // Start typing sequence after hero-name animation
+                setTimeout(() => {
+                    if (nameElement) {
+                        typeWriter(nameElement, 'Henry Ayub', 150, () => {
+                            // After name is typed, type the role
+                            setTimeout(() => {
+                                if (roleElement) {
+                                    typeWriter(roleElement, 'Software Engineer | Backend Developer | Community Leader', 80, () => {
+                                        // After role is typed, type the description
+                                        setTimeout(() => {
+                                            if (descriptionElement) {
+                                                typeWriter(descriptionElement, 'Empowering tech through clean code and community impact.', 60);
+                                            }
+                                        }, 300);
+                                    });
+                                }
+                            }, 500);
+                        });
+                    }
+                }, 1500); // Start after hero-name fade-in animation
+            } else {
+                // Mobile: Show text immediately without typewriter
+                const nameElement = document.getElementById('name-typewriter');
+                const roleElement = document.getElementById('role-typewriter');
+                const descriptionElement = document.getElementById('description-typewriter');
+                
+                if (nameElement) nameElement.textContent = 'Henry Ayub';
+                if (roleElement) roleElement.textContent = 'Software Engineer | Backend Developer | Community Leader';
+                if (descriptionElement) descriptionElement.textContent = 'Empowering tech through clean code and community impact.';
+            }
+        }
+
+        // Initialize Hero Animations (Updated)
+        function initHeroAnimations() {
+            // Initialize typewriter effect
+            initHeroTypewriter();
         }
 
         // Initialize hero animations on page load
