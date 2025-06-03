@@ -504,6 +504,26 @@
                 font-size: 1rem !important;
             }
         }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8) translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
     </style>
 </head>
 <body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-300">
@@ -1166,6 +1186,74 @@
                 formMessage.classList.add('hidden');
             }, 8000);
         }
+
+        // CV Modal Functionality
+        const viewCvBtn = document.getElementById('view-cv-btn');
+        const cvModal = document.getElementById('cv-modal');
+        const closeCvModal = document.getElementById('close-cv-modal');
+        const cvIframe = document.getElementById('cv-iframe');
+        const cvError = document.getElementById('cv-error');
+
+        viewCvBtn.addEventListener('click', () => {
+            // Show loading state
+            viewCvBtn.classList.add('loading');
+            
+            // Show modal
+            cvModal.classList.add('show');
+            
+            // Try to load PDF
+            cvIframe.src = 'assets/Henry_Ayub_CV.pdf';
+            
+            // Handle iframe load
+            cvIframe.onload = () => {
+                viewCvBtn.classList.remove('loading');
+                cvError.classList.remove('show');
+            };
+            
+            // Handle iframe error
+            cvIframe.onerror = () => {
+                viewCvBtn.classList.remove('loading');
+                cvIframe.style.display = 'none';
+                cvError.classList.add('show');
+            };
+            
+            // Fallback timeout in case PDF doesn't load
+            setTimeout(() => {
+                if (viewCvBtn.classList.contains('loading')) {
+                    viewCvBtn.classList.remove('loading');
+                    cvIframe.style.display = 'none';
+                    cvError.classList.add('show');
+                }
+            }, 5000);
+        });
+
+        // Close modal functionality
+        closeCvModal.addEventListener('click', () => {
+            cvModal.classList.remove('show');
+            cvIframe.src = '';
+            cvError.classList.remove('show');
+            cvIframe.style.display = 'block';
+        });
+
+        // Close modal when clicking outside
+        cvModal.addEventListener('click', (e) => {
+            if (e.target === cvModal) {
+                cvModal.classList.remove('show');
+                cvIframe.src = '';
+                cvError.classList.remove('show');
+                cvIframe.style.display = 'block';
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && cvModal.classList.contains('show')) {
+                cvModal.classList.remove('show');
+                cvIframe.src = '';
+                cvError.classList.remove('show');
+                cvIframe.style.display = 'block';
+            }
+        });
 
         // Typewriter Effect Function
         function typeWriter(element, text, speed = 100, callback = null) {
